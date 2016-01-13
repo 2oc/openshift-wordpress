@@ -1,22 +1,41 @@
-FROM centos:7
-MAINTAINER Joeri van Dooren
+FROM php:5.6-apache
+MAINAINER Joeri van Dooren
 
-RUN yum -y install epel-release && yum -y install nginx php-fpm php-mysql php-apc secpwgen curl unzip  php-curl php-gd php-intl php-pear php-imagick php-imap php-mcrypt php-memcache php-pspell php-recode php-tidy php-xmlrpc php-xsl && yum clean all -y
+RUN a2enmod rewrite expires
 
-RUN mkdir -p /var/www
+# install the PHP extensions we need
+RUN apt-get update && apt-get install -y libpng12-dev libjpeg-dev && rm -rf /var/lib/apt/lists/* \
+	&& docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
+	&& docker-php-ext-install gd mysqli opcache
 
-# web content
-ADD html /var/www
+# set recommended PHP.ini settings
+# see https://secure.php.net/manual/en/opcache.installation.php
+RUN { \
+		echo 'opcache.memory_consumption=128'; \
+		echo 'opcache.interned_strings_buffer=8'; \
+		echo 'opcache.max_accelerated_files=4000'; \
+		echo 'opcache.revalidate_freq=60'; \
+		echo 'opcache.fast_shutdown=1'; \
+		echo 'opcache.enable_cli=1'; \
+	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-RUN chmod -R ugo+r /var/www
+VOLUME /var/www/html
 
-ADD nginx.conf /
+ENV WORDPRESS_VERSION 4.4.1
+ENV WORDPRESS_SHA1 89bcc67a33aecb691e879c818d7e2299701f30e7
 
-RUN chmod ugo+r /nginx.conf
+# upstream tarballs include ./wordpress/ so this gives us /usr/src/wordpress
+RUN curl -o wordpress.tar.gz -SL https://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz \
+	&& echo "$WORDPRESS_SHA1 *wordpress.tar.gz" | sha1sum -c - \
+	&& tar -xzf wordpress.tar.gz -C /usr/src/ \
+	&& rm wordpress.tar.gz \
+	&& chown -R www-data:www-data /usr/src/wordpress
 
-USER 997
-EXPOSE 8080
-CMD ["/usr/sbin/nginx", "-c", "/nginx.conf", "-g", "daemon off;"]
+COPY docker-entrypoint.sh /entrypoint.sh
+
+# grr, ENTRYPOINT resets CMD now
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["apache2-foreground"]
 
 # Set labels used in OpenShift to describe the builder images
 LABEL io.k8s.description="Platform for serving wordpress sites" \
