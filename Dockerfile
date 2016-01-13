@@ -4,19 +4,17 @@ MAINTAINER Joeri van Dooren
 RUN yum -y install epel-release && yum -y install httpd && yum clean all -y
 
 # web content
-ADD html /var/www/html
+#ADD html /var/www/html
 
-RUN chmod -R ugo+r /var/www
+#RUN chmod -R ugo+r /var/www
 
 ADD httpd.conf /
 
 ADD run_apache.sh /
-#ADD test.sh /
 
-#RUN chmod ugo+r /nginx.conf
 RUN rm -fr /run/httpd; ln -sf /tmp/run/httpd /run/httpd
 
-#VOLUME /var/www/html
+VOLUME /var/www/html
 
 USER 997
 EXPOSE 8080
