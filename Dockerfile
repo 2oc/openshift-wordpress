@@ -16,6 +16,9 @@ RUN yum -y install epel-release && yum -y install httpd && yum clean all -y
 
 #VOLUME /var/www/html
 
+RUN sed -i.orig 's/#ServerName/ServerName/' /etc/httpd/conf/httpd.conf
+RUN sed -i.orig 's/Listen 80/Listen 8080/' /etc/httpd/conf/httpd.conf
+
 USER 997
 EXPOSE 8080
 CMD ["/sbin/apachectl", "-D", "FOREGROUND"]
