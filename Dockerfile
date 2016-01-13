@@ -1,47 +1,28 @@
-FROM php:5.6
+FROM centos:7
 MAINTAINER Joeri van Dooren
 
-RUN a2enmod rewrite expires
+RUN yum -y install epel-release && yum -y install httpd && yum clean all -y
 
-# install the PHP extensions we need
-RUN apt-get update && apt-get install -y libpng12-dev libjpeg-dev && rm -rf /var/lib/apt/lists/* \
-	&& docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
-	&& docker-php-ext-install gd mysqli opcache
+#RUN mkdir -p /var/www
 
-# set recommended PHP.ini settings
-# see https://secure.php.net/manual/en/opcache.installation.php
-RUN { \
-		echo 'opcache.memory_consumption=128'; \
-		echo 'opcache.interned_strings_buffer=8'; \
-		echo 'opcache.max_accelerated_files=4000'; \
-		echo 'opcache.revalidate_freq=60'; \
-		echo 'opcache.fast_shutdown=1'; \
-		echo 'opcache.enable_cli=1'; \
-	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
+# web content
+#ADD html /var/www
 
-VOLUME /var/www/html
+#RUN chmod -R ugo+r /var/www
 
-ENV WORDPRESS_VERSION 4.4.1
-ENV WORDPRESS_SHA1 89bcc67a33aecb691e879c818d7e2299701f30e7
+#ADD nginx.conf /
 
-# upstream tarballs include ./wordpress/ so this gives us /usr/src/wordpress
-RUN curl -o wordpress.tar.gz -SL https://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz \
-	&& echo "$WORDPRESS_SHA1 *wordpress.tar.gz" | sha1sum -c - \
-	&& tar -xzf wordpress.tar.gz -C /usr/src/ \
-	&& rm wordpress.tar.gz \
-	&& chown -R www-data:www-data /usr/src/wordpress
+#RUN chmod ugo+r /nginx.conf
 
-COPY docker-entrypoint.sh /entrypoint.sh
-
-# grr, ENTRYPOINT resets CMD now
-ENTRYPOINT ["/entrypoint.sh"]
-CMD ["apache2-foreground"]
+USER 997
+EXPOSE 8080
+CMD ["/sbin/httpd", "-D", "FOREGROUND"]
 
 # Set labels used in OpenShift to describe the builder images
-LABEL io.k8s.description="Platform for serving wordpress sites" \
-      io.k8s.display-name="wordpress nginx centos7 epel" \
+LABEL io.k8s.description="Wordpress" \
+      io.k8s.display-name="wordpress apache centos7 epel" \
       io.openshift.expose-services="8080:http" \
-      io.openshift.tags="builder,html,nginx" \
+      io.openshift.tags="builder,wordpress,apache" \
       io.openshift.min-memory="1Gi" \
       io.openshift.min-cpu="1" \
       io.openshift.non-scalable="false"
