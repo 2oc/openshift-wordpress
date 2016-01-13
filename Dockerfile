@@ -1,19 +1,17 @@
 FROM centos:7
 MAINTAINER Joeri van Dooren
 
-RUN yum -y install epel-release && yum -y install httpd coreutils && yum clean all -y
-
-#RUN mkdir -p /var/www
+RUN yum -y install epel-release && yum -y install httpd && yum clean all -y
 
 # web content
-ADD html /var/www
+ADD html/index.html /var/www/html
 
 RUN chmod -R ugo+r /var/www
 
 ADD httpd.conf /
 
 ADD run_apache.sh /
-ADD test.sh /
+#ADD test.sh /
 
 #RUN chmod ugo+r /nginx.conf
 RUN rm -fr /run/httpd; ln -sf /tmp/run/httpd /run/httpd
