@@ -14,9 +14,11 @@ RUN yum -y install epel-release && yum -y install httpd && yum clean all -y
 
 #RUN chmod ugo+r /nginx.conf
 
+#VOLUME /var/www/html
+
 USER 997
 EXPOSE 8080
-CMD ["/sbin/httpd", "-D", "FOREGROUND"]
+CMD ["/sbin/apachectl", "-D", "FOREGROUND"]
 
 # Set labels used in OpenShift to describe the builder images
 LABEL io.k8s.description="Wordpress" \
