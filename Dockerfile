@@ -16,6 +16,7 @@ ADD run_apache.sh /
 ADD test.sh /
 
 #RUN chmod ugo+r /nginx.conf
+RUN rm -fr /run/httpd; ln -sf /tmp/run/httpd httpd
 
 #VOLUME /var/www/html
 
