@@ -1,7 +1,7 @@
 FROM centos:7
 MAINTAINER Joeri van Dooren
 
-RUN yum -y install epel-release && yum -y install nginx php-fpm php-mysql php-apc secpwgen curl unzip  php-curl php-gd php-intl php-pear php-imagick php-imap php-mcrypt php-memcache php-ming php-ps php-pspell php-recode php-sqlite php-tidy php-xmlrpc php-xsl && yum clean all -y
+RUN yum -y install epel-release && yum -y install nginx php-fpm php-mysql php-apc secpwgen curl unzip  php-curl php-gd php-intl php-pear php-imagick php-imap php-mcrypt php-memcache php-pspell php-recode php-tidy php-xmlrpc php-xsl && yum clean all -y
 
 RUN mkdir -p /var/www
 
@@ -14,7 +14,7 @@ ADD nginx.conf /
 
 RUN chmod ugo+r /nginx.conf
 
-US ER 997
+USER 997
 EXPOSE 8080
 CMD ["/usr/sbin/nginx", "-c", "/nginx.conf", "-g", "daemon off;"]
 
