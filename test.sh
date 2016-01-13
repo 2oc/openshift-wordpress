@@ -1,3 +1,3 @@
 #!/bin/sh
 
-while true; do echo hello-world; sleep 1; done
+while true; do sleep 1; done

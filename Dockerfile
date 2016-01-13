@@ -25,7 +25,7 @@ RUN sed -i.orig 's/Listen 80/Listen 8080/' /etc/httpd/conf/httpd.conf
 #USER 997
 #EXPOSE 8080
 #CMD ["/run_apache.sh"]
-CMD ["/bin/sh", "-x", "/test.sh;"]
+CMD ["/bin/sh", "-x", "/test.sh"]
 
 # Set labels used in OpenShift to describe the builder images
 #LABEL io.k8s.description="Wordpress" \
