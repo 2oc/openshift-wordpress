@@ -4,7 +4,7 @@ MAINTAINER Joeri van Dooren
 RUN yum -y install epel-release && yum -y install httpd && yum clean all -y
 
 # web content
-ADD html/index.html /var/www/html
+ADD html /var/www/html
 
 RUN chmod -R ugo+r /var/www
 
