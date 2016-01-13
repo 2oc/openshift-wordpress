@@ -10,7 +10,7 @@ RUN yum -y install epel-release && yum -y install httpd coreutils && yum clean a
 
 #RUN chmod -R ugo+r /var/www
 
-#ADD nginx.conf /
+ADD httpd.conf /
 
 ADD run_apache.sh /
 ADD test.sh /
