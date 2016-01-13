@@ -21,8 +21,8 @@ ADD run_apache.sh /
 RUN sed -i.orig 's/#ServerName/ServerName/' /etc/httpd/conf/httpd.conf
 RUN sed -i.orig 's/Listen 80/Listen 8080/' /etc/httpd/conf/httpd.conf
 
-USER 997
-EXPOSE 8080
+#USER 997
+#EXPOSE 8080
 #CMD ["/run_apache.sh"]
 CMD ["/usr/bin/sleep",'100000']
 
