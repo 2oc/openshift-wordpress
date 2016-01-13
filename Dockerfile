@@ -1,5 +1,5 @@
 FROM php:5.6-apache
-MAINAINER Joeri van Dooren
+MAINTAINER Joeri van Dooren
 
 RUN a2enmod rewrite expires
 
