@@ -12,6 +12,9 @@ RUN yum -y install epel-release && yum -y install httpd coreutils && yum clean a
 
 ADD httpd.conf /
 
+RUN ln -sf /dev/stdout /tmp/access.log
+RUN ln -sf /dev/stderr /tmp/error.log
+
 ADD run_apache.sh /
 ADD test.sh /
 
