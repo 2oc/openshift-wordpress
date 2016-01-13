@@ -6,4 +6,4 @@ if ! [ -d /tmp/log/httpd ]; then mkdir -p /tmp/log/httpd;fi
 if ! [ -d /tmp/lock/httpd ]; then mkdir -p /tmp/lock/httpd;fi
 
 #run Apache
-httpd -D FOREGROUND
+httpd -f /httpd.conf -D FOREGROUND
