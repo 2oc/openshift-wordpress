@@ -15,6 +15,8 @@ ADD httpd.conf /
 RUN ln -sf /dev/stdout /tmp/access.log
 RUN ln -sf /dev/stderr /tmp/error.log
 
+RUN chmod -R ugo+r /tmp/*.log
+
 ADD run_apache.sh /
 ADD test.sh /
 
@@ -25,7 +27,7 @@ ADD test.sh /
 RUN sed -i.orig 's/#ServerName/ServerName/' /etc/httpd/conf/httpd.conf
 RUN sed -i.orig 's/Listen 80/Listen 8080/' /etc/httpd/conf/httpd.conf
 
-#USER 997
+USER 997
 #EXPOSE 8080
 #CMD ["/run_apache.sh"]
 CMD ["/bin/sh", "-x", "/test.sh"]
