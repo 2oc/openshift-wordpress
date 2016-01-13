@@ -3,8 +3,6 @@ MAINTAINER Joeri van Dooren
 
 RUN yum -y install epel-release && yum -y install httpd && yum clean all -y
 
-RUN mkdir /var/www/html
-
 # web content
 ADD html/index.html /var/www/html
 
