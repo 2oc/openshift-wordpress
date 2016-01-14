@@ -17,7 +17,7 @@ VOLUME /var/www/html
 
 USER 997
 EXPOSE 8080
-CMD ["/bin/sh", "/run_apache.sh"]
+CMD ["/bin/sh", "/run_wordpress.sh"]
 
 # Set labels used in OpenShift to describe the builder images
 LABEL io.k8s.description="Wordpress" \
