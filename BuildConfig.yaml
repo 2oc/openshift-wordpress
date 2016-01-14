@@ -4,8 +4,7 @@ items:
   kind: BuildConfig
   metadata:
     annotations:
-      openshift.io/generated-by: OpenShiftNewApp
-    creationTimestamp: null
+      openshift.io/generated-by: uRe
     labels:
       app: openshift-wordpress
     name: openshift-wordpress
@@ -26,30 +25,6 @@ items:
           kind: ImageStreamTag
           name: centos:7
       type: Docker
-    containers:
-      - image: openshift-wordpress
-        name: openshift-wordpress
-        env:
-          - name: WORDPRESS_DB_USER
-            value: wp_user
-          - name: WORDPRESS_DB_PASSWORD
-            value: wp_pass
-          - name: WORDPRESS_DB_NAME
-            value: wp_db
-          - name: WORDPRESS_DB_HOST
-            # this is the name of the mysql service fronting the mysql pod in the same namespace
-            # expands to mysql.<namespace>.svc.cluster.local  - where <namespace> is the current namespace
-            value: mysql
-        ports:
-          - containerPort: 8080
-            name: wordpress
-        volumeMounts:
-          - name: openshift-wordpress-persistent-storage
-            mountPath: /var/www/html
-    volumes:
-      - name: openshift-wordpress-persistent-storage
-        persistentVolumeClaim:
-         claimName: openshift-claim-wp
   status:
     lastVersion: 0
 kind: List

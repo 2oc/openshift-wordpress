@@ -1,7 +1,7 @@
 FROM centos:7
 MAINTAINER Joeri van Dooren
 
-RUN yum -y install epel-release && yum -y install httpd && yum clean all -y
+RUN yum -y install epel-release && yum -y install httpd wget && yum clean all -y
 
 # web content
 #ADD html /var/www/html
@@ -13,6 +13,8 @@ ADD httpd.conf /
 ADD run_apache.sh /
 
 RUN rm -fr /run/httpd; ln -sf /tmp/run/httpd /run/httpd
+
+RUN wget https://wordpress.org/latest.zip
 
 VOLUME /var/www/html
 
