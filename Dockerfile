@@ -1,12 +1,7 @@
 FROM centos:7
 MAINTAINER Joeri van Dooren
 
-RUN yum -y install epel-release && yum -y install httpd wget && yum clean all -y
-
-# web content
-#ADD html /var/www/html
-
-#RUN chmod -R ugo+r /var/www
+RUN yum -y install epel-release && yum -y install httpd wget unzip php php-mysql php-gd pwgen supervisor bash-completion psmisc tar && yum clean all -y
 
 ADD httpd.conf /
 
@@ -14,14 +9,15 @@ ADD run_apache.sh /
 
 RUN rm -fr /run/httpd; ln -sf /tmp/run/httpd /run/httpd
 
-RUN wget https://wordpress.org/latest.zip
+ADD http://wordpress.org/latest.tar.gz /wordpress.tar.gz
+
+RUN tar xvzf /wordpress.tar.gz
 
 VOLUME /var/www/html
 
 USER 997
 EXPOSE 8080
 CMD ["/bin/sh", "/run_apache.sh"]
-#CMD ["/bin/sh", "-x", "/test.sh"]
 
 # Set labels used in OpenShift to describe the builder images
 LABEL io.k8s.description="Wordpress" \
