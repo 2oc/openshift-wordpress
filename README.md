@@ -28,6 +28,7 @@ oc create -f PersistentVolumeClaim.yaml
 ```sh
 oc create -f BuildConfig.yaml
 oc create -f DeploymentConfig.yaml
+oc new-app https://github.com/ure/openshift-wordpress.git
 oc start-build openshift-wordpress
 ```
 
