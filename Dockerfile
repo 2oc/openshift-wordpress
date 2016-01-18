@@ -1,7 +1,7 @@
 FROM centos:7
 MAINTAINER Joeri van Dooren
 
-RUN yum -y install epel-release && yum -y install httpd wget unzip php php-mysql php-gd pwgen supervisor bash-completion psmisc tar && yum clean all -y
+RUN yum -y install epel-release && yum -y install httpd wget unzip php php-mysql php-gd pwgen supervisor bash-completion psmisc tar mysql && yum clean all -y
 
 ADD httpd.conf /
 
