@@ -6,24 +6,24 @@ Template for running a wordpress container.
 
 You need oc (li tool) locally installed
 
-####Create a new project
+###Create a new project
 ```sh
 oc new-project openshift-wordpress \
     --description="Wordpress on openshift" \
     --display-name="Wordpress"
 ```
-####Clone the repository
+###Clone the repository
 ```sh
 git clone https://github.com/ure/openshift-wordpress.git
 ```
 
-####Create a PersistentVolumeClaim
+###Create a PersistentVolumeClaim
 ```sh
 oc create -f GlusterFS-Cluster.yaml
 oc create -f PersistentVolumeClaim.yaml
 ```
 
-####Build Wordpress app
+###Build Wordpress app
 
 ```sh
 oc create -f BuildConfig.yaml
@@ -32,20 +32,21 @@ oc new-app https://github.com/ure/openshift-wordpress.git
 oc start-build openshift-wordpress
 ```
 
-####Build a dynamic Route
+###Build a dynamic Route
 ```sh
 oc create -f Route.yaml
 ```
 
-####Build a static Route
+###Build a static Route
 (for production and optionally delete the development route)
 ```sh
 oc delete -f Route.yaml
 oc create -f ProductionRoute.yaml
 ```
 
-####Optionally for deployments from a private repository
+#Optionally for deployments from a private repository
 ###Create a new repository
+
 ###Modify sources to your repository name
 ```sh
 perl -i -pe 's/openshift-wordpress/yourreponame/g' *
