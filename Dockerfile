@@ -5,7 +5,7 @@ RUN yum -y install epel-release && yum -y install httpd wget unzip php php-mysql
 
 ADD httpd.conf /
 
-ADD run_apache.sh /
+ADD run_wordpress.sh /
 
 RUN rm -fr /run/httpd; ln -sf /tmp/run/httpd /run/httpd
 
