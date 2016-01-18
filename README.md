@@ -57,7 +57,7 @@ perl -i -pe 's/openshift-wordpress/yourreponame/g' *
 rm -f BuildConfig.yaml
 ./genwebhooksecret.sh
 ```
-edit BuildConfig and modify you repository location
+edit BuildConfig.yaml & DeploymentConfig.yaml and modify you repository location
 
 ###Create an ssh deploy key without passphrase
 ```sh
