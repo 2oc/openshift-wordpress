@@ -38,7 +38,8 @@ oc create -f Route.yaml
 ```
 
 ####Build a static Route
-(for prodution)
+(for production and optionally delete the development route)
 ```sh
+oc delete -f Route.yaml
 oc create -f ProductionRoute.yaml
 ```
