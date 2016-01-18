@@ -55,8 +55,9 @@ perl -i -pe 's/openshift-wordpress/yourreponame/g' *
 ###Generate BuildConfig
 ```sh
 rm -f BuildConfig.yaml
-./genwebhooksecret.
+./genwebhooksecret.sh
 ```
+edit BuildConfig and modify you repository location
 
 ###Create an ssh deploy key without passphrase
 ```sh
