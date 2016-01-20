@@ -1,17 +1,19 @@
 FROM centos:7
 MAINTAINER Joeri van Dooren
 
-RUN yum -y install epel-release && yum -y install httpd wget unzip php php-mysql php-gd pwgen supervisor bash-completion psmisc tar mysql && yum clean all -y
+RUN yum -y install epel-release && yum -y install httpd wget unzip php php-mysql php-gd pwgen supervisor bash-completion psmisc tar mysql ssmtp && yum clean all -y
 
-ADD httpd.conf /
+COPY httpd.conf /
 
-ADD run_wordpress.sh /
+COPY run_wordpress.sh /
 
 RUN rm -fr /run/httpd; ln -sf /tmp/run/httpd /run/httpd
 
 ADD http://wordpress.org/latest.tar.gz /wordpress.tar.gz
 
 RUN tar xvzf /wordpress.tar.gz
+
+COPY ssmtp /etc/ssmtp
 
 VOLUME /var/www/html
 
