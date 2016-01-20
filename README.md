@@ -44,6 +44,9 @@ oc delete -f Route.yaml
 oc create -f ProductionRoute.yaml
 ```
 
+###Mail the world
+this is done with ssmtp ... edit files in /ssmtp directory accordingly
+
 #Optionally for deployments from a private repository
 ###Create a new repository
 
