@@ -19,7 +19,8 @@ git clone https://github.com/ure/openshift-wordpress.git
 
 ###Create a PersistentVolumeClaim
 ```sh
-oc create -f GlusterFS-Cluster.yaml
+oc create -f Gluster-Service.yaml
+oc create -f Gluster-Endpoints.yaml
 oc create -f PersistentVolumeClaim.yaml
 ```
 
