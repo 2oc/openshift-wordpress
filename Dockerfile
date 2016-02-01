@@ -1,7 +1,10 @@
 FROM centos:7
 MAINTAINER Joeri van Dooren
 
-RUN yum -y install epel-release && yum -y install httpd wget unzip php php-mysql php-gd pwgen supervisor bash-completion psmisc tar mysql ssmtp && yum clean all -y
+RUN rpm -Uvh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
+RUN rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
+RUN yum -y install epel-release && yum -y install httpd wget unzip git pwgen supervisor bash-completion psmisc tar mysql
+RUN yum -y install php70 php70-php php70-php-mbstring php70-php-gd php70-php-dom php70-php-pdo php70-php-mysqlnd php70-php-mcrypt php70-php-process php70-php-pear php70-php-cli php70-php-xml php70-php-curl php70-php-phalcon2 && yum --enablerepo=epel -y install ssmtp && yum clean all -y
 
 COPY httpd.conf /
 
@@ -14,6 +17,9 @@ ADD http://wordpress.org/latest.tar.gz /wordpress.tar.gz
 RUN tar xvzf /wordpress.tar.gz
 
 COPY ssmtp /etc/ssmtp
+COPY php.ini /etc/opt/remi/php70/php.ini
+RUN chmod a+rw /etc/passwd
+RUN chmod a+rw /etc/ssmtp
 
 VOLUME /var/www/html
 
